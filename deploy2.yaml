@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:8.1.0-oracle
+        name: mysql
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_USER
+          value: ram
+        - name: MYSQL_PASSWORD
+          value: password@1
+        - name: MYSQL_ROOT_PASSWORD
+          value: password@1
+        volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/mysql # Adjust the mount path as needed
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: persistent-volume-claim
