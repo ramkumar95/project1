@@ -1,6 +1,7 @@
 FROM tomcat:9.0.80-jre11-temurin-jammy
 WORKDIR webapps/
 RUN apt update && apt install -y unzip
+RUN apt install traceroute -y   
 COPY 'jtrac-2.3.1.zip?viasf=1' .
 COPY mysql-connector-java-8.0.28.jar /usr/local/tomcat/lib/
 

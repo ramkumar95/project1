@@ -18,20 +18,44 @@ spec:
         app: jtrac-app
     spec:
       containers:
-      - image: rambpm/jtrac:v1.2
+      - image: rambpm/jtrac:v1.3
         name: jtrac
         ports:
         - containerPort: 8080
         env:
         - name: database_driver
-          value: "com.mysql.jdbc.Driver"
+          valueFrom:
+           configMapKeyRef:
+            name: jtrac-config
+            key: database_driver
+
         - name: database_url
-          value: "jdbc:mysql://mysql:3306/jtrac"
+          valueFrom:
+           configMapKeyRef:
+            name: jtrac-config
+            key: database_url
+
         - name: database_username
-          value: "root"
+          valueFrom:
+           secretKeyRef:
+            name: db-secret
+            key: database_username
+
         - name: database_password
-          value: "password@1"
+          valueFrom:
+           secretKeyRef:
+            name: db-secret
+            key: database_password
+
         - name: hibernate_dialect
-          value: "org.hibernate.dialect.MySQLDialect"
+          valueFrom:
+           configMapKeyRef:
+            name: jtrac-config
+            key: hibernate_dialect
+ 
         - name: hibernate_show_sql
-          value: "false"
+          valueFrom:
+           configMapKeyRef:
+            name: jtrac-config
+            key: hibernate_show_sql
+           
